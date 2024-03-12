@@ -33,17 +33,16 @@ def initialize_weights(num_features):
 # Implement the sigmoid function
 def sigmoid(z):
     """
-    🗿🗿🗿🗿🗿🗿🗿🗿🗿🗿🗿
-    Sigmoid activation function
+    Sigmoid activation function 😼
     
     Parameters:
     z (float): The raw input to the sigmoid function
     
     Returns:
     float: Output of the sigmoid function
-                  |\_ |\_
-                   \` .. \
-              __,.-" =__Y=
+                  |\_ |\_    [  Sigma Cat :3 ]
+                   \` .. \   )/   
+              __,.-" =__Y=         
             ."        )
       _    /   ,    \/\_
      ((____|    )_-\ \_-`
@@ -58,7 +57,7 @@ def sigmoid(z):
 # This function should call sigmoid()
 def helper_function(weights, test_instance):
     """
-    😍 Helper function for prediction. 😍
+    Helper function for prediction.
     
     Parameters:
     weights (list): The weight vector
@@ -84,7 +83,7 @@ def helper_function(weights, test_instance):
 # This function should call Helper function
 def prediction_function(weights, test_instance, threshold=0.5):
     """
-    😼 Prediction function. 😼
+    Prediction function.
     
     Parameters:
     weights (list): The weight vector
@@ -108,7 +107,7 @@ def prediction_function(weights, test_instance, threshold=0.5):
 # and prints the accuracy, P, R, and F1 score of the positive class and negative class and the confusion matrix
 def evaluate_model(test_set, weights, threshold=0.5):
     """
-    🤬😵‍💫🫨 Evaluate the Logistic Regression model on a test set. 🤬😵‍💫🫨
+    🤬😵‍💫🫨🗿 Evaluate the Logistic Regression model on a test set 🤬😵‍💫🫨🗿
 
     Parameters:
     test_set (tuple): A tuple containing feature names and the test data matrix.
@@ -157,7 +156,7 @@ def evaluate_model(test_set, weights, threshold=0.5):
 
 def compute_log_likelihood(weights, data_matrix):
     """
-    😬 Compute the log-likelihood for the Logistic Regression model. 😬
+    Compute the log-likelihood for the Logistic Regression model. 😬
 
     Parameters:
     weights (list): The weight vector.
@@ -185,7 +184,7 @@ def compute_log_likelihood(weights, data_matrix):
 # Also compute the log-oss in this function
 def train_logistic_regression(train_set, learning_rate, iterations):
     """
-    😵😵😵 Train the Logistic Regression model using Stochastic Gradient Descent. 😵😵😵
+    Train the Logistic Regression model using Stochastic Gradient Descent. 😵
 
     Parameters:
     train_set (tuple): A tuple containing feature names and the data matrix.
@@ -224,7 +223,7 @@ def train_logistic_regression(train_set, learning_rate, iterations):
 # Function to read the input dataset
 def read_input_dataset(file_path):
     """
-    🥰 Read the input dataset from the given file path. 🥰
+    Read the input dataset from the given file path. 🥰
 
     Parameters:
     file_path (str): The path to the input dataset file.
