@@ -197,26 +197,23 @@ def train_logistic_regression(train_set, learning_rate, iterations):
     feature_names, data_matrix = train_set
     num_features = len(feature_names) - 1
     weights = initialize_weights(num_features)
-
+    
+    # Inside the train_logistic_regression function
     for iteration in range(iterations):
-        # iterate through each data point
+        # Shuffle the data to introduce stochasticity
+        #np.random.shuffle(data_matrix)
         for instance in data_matrix:
-            # extract features and label from the instance
             features = instance[:-1]
             label = instance[-1]
 
-            # use the current weights to make a prediction
             prediction = helper_function(weights, features)
-
-            # update weights using gradient descent
-            for i in range(num_features):
-                gradient = (prediction - label) * features[i]
-                weights[i] -= learning_rate * gradient
-
-        # print the current iteration and log-likelihood
+            
+            # Vectorized weight update
+            gradient = (prediction - label) * features
+            weights -= learning_rate * gradient
+        # Log-likelihood calculation after each epoch
         log_likelihood = compute_log_likelihood(weights, data_matrix)
         print(f"Iteration {iteration + 1}/{iterations}, Log-Likelihood: {log_likelihood}")
-
     return weights
 
 
@@ -244,7 +241,6 @@ def read_input_dataset(file_path):
 
     # convert data to a NumPy array
     data_matrix = np.array(data_lines, dtype=float)
-
     return feature_names, data_matrix
 
 def print_running_time(start_time):
@@ -257,7 +253,7 @@ def main():
     # load training and test sets
     train_set = read_input_dataset(TRAIN_FILE)
     test_set = read_input_dataset(TEST_FILE)
-    
+    print("Succesfully read Data!")
     start_time = time.time()
 
     # train the Logistic Regression model
