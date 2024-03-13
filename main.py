@@ -18,11 +18,8 @@ def initialize_weights(num_features):
     """
     Initialize the weight vector by setting it to the 0 vector.
     
-    Parameters:
-    num_features (int): Number of features in the weight vector
-    
-    Returns:
-    list: The initialized weight vector
+    Parameters: num_features (int): Number of features in the weight vector
+    Returns: list: The initialized weight vector
     """
     return [0.0] * num_features
 
@@ -35,11 +32,8 @@ def sigmoid(z):
     """
     Sigmoid activation function 😼
     
-    Parameters:
-    z (float): The raw input to the sigmoid function
-    
-    Returns:
-    float: Output of the sigmoid function
+    Parameters: z (float): The raw input to the sigmoid function
+    Returns: float: Output of the sigmoid function
                   |\_ |\_    [  Sigma Cat :3 ]
                    \` .. \   )/   
               __,.-" =__Y=         
@@ -48,34 +42,22 @@ def sigmoid(z):
      ((____|    )_-\ \_-`
      `-----'`-----` `--`
     """
-    return 1 / (1 + math.exp(-z))
+    return 1 / (1 + np.exp(-z))
 
 
 
 # Helper function for prediction
 # Takes a test instance as input and outputs the probability of the label being 1
 # This function should call sigmoid()
-def helper_function(weights, test_instance):
+def helper_function(weights, test_matrix):
     """
     Helper function for prediction.
     
-    Parameters:
-    weights (list): The weight vector
-    test_instance (list): The feature values of the test instance
-    
-    Returns:
-    float: Probability of the label being 1
+    Parameters: weights (numpy.ndarray): The weight vector. test_matrix (numpy.ndarray): The feature values of the test instances.
+    Returns: numpy.ndarray: Probabilities of the labels being 1 for each instance.
     """
-    # calculate the raw input to the sigmoid function
-    z = 0
-    for w, x in zip(weights, test_instance):
-        z += w * x
-        #print(f"[|{str(z)} + w:{w} + x:{x}|] ", end="")
-
-    # call the sigmoid function
-    probability = sigmoid(z)
-    #print(probability)
-    return probability
+    z = np.dot(test_matrix, weights)
+    return sigmoid(z)
 
 
 # The prediction function
@@ -86,12 +68,9 @@ def prediction_function(weights, test_instance, threshold=0.5):
     Prediction function.
     
     Parameters:
-    weights (list): The weight vector
-    test_instance (list): The feature values of the test instance
+    weights (list): The weight vector. test_instance (list): The feature values of the test instance
     threshold (float): Decision threshold for classification
-    
-    Returns:
-    int: Predicted label (0 or 1)
+    Returns: int: Predicted label (0 or 1)
     """
     # use the helper function to get the probability
     probability = helper_function(weights, test_instance)
@@ -107,15 +86,11 @@ def prediction_function(weights, test_instance, threshold=0.5):
 # and prints the accuracy, P, R, and F1 score of the positive class and negative class and the confusion matrix
 def evaluate_model(test_set, weights, threshold=0.5):
     """
-    🤬😵‍💫🫨🗿 Evaluate the Logistic Regression model on a test set 🤬😵‍💫🫨🗿
+    evaluates the Logistic Regression model on a test set 
 
-    Parameters:
-    test_set (tuple): A tuple containing feature names and the test data matrix.
-    weights (list): The learned weight vector.
+    Parameters: test_set (tuple): A tuple containing feature names and the test data matrix. weights (list): The learned weight vector. 
     threshold (float): Decision threshold for classification.
-
-    Returns:
-    tuple: A tuple containing accuracy, precision, recall, F1 score, and confusion matrix.
+    Returns: tuple: A tuple containing accuracy, precision, recall, F1 score, and confusion matrix.
     """
     feature_names, test_data = test_set
     num_features = len(feature_names) - 1
@@ -154,56 +129,44 @@ def evaluate_model(test_set, weights, threshold=0.5):
 
     return accuracy, precision, recall, f1_score, confusion_matrix
 
-def compute_log_likelihood(weights, data_matrix):
+def compute_log_loss(y_true, y_pred):
     """
-    Compute the log-likelihood for the Logistic Regression model. 😬
+    Computes the log loss for binary classification.
 
-    Parameters:
-    weights (list): The weight vector.
-    data_matrix (numpy.ndarray): The data matrix.
-
-    Returns:
-    float: The log-likelihood.
+    Parameters: y_true (numpy.ndarray): True labels. y_pred (numpy.ndarray): Predicted probabilities.
+    Returns: float: The log loss.
     """
-    log_likelihood = 0.0
-
-    for instance in data_matrix:
-        features = instance[:-1]
-        label = instance[-1]
-
-        # calculate the raw input to the sigmoid function here
-        z = np.dot(weights, features)
-
-        # calculate the log-likelihood contribution for the current  instance
-        log_likelihood += label * z - np.log(1 + np.exp(z))
-
-    return log_likelihood
+    N = len(y_true)
+    
+    # Clip predictions to avoid log(0) or log(1)
+    y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
+    
+    # Compute log loss
+    loss = -1/N * np.sum(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
+    return loss
 
 
 # Train the Logistic Regression in a function using Stochastic Gradient Descent
 # Also compute the log-oss in this function
 def train_logistic_regression(train_set, learning_rate, iterations):
     """
-    Train the Logistic Regression model using Stochastic Gradient Descent. 😵
+    trains the Logistic Regression model using Stochastic Gradient Descent.
 
-    Parameters:
-    train_set (tuple): A tuple containing feature names and the data matrix.
-    learning_rate (float): The learning rate for gradient descent.
+    Parameters: train_set (tuple): A tuple containing feature names and the data matrix. learning_rate (float): The learning rate for gradient descent.
     iterations (int): The number of iterations for training.
-
-    Returns:
-    list: The learned weight vector.
+    Returns: list: The learned weight vector.
     """
     start_time = time.time()
     feature_names, data_matrix = train_set
     num_features = len(feature_names) - 1
     weights = initialize_weights(num_features)
-    
-    # Inside the train_logistic_regression function
-    for iteration in range(iterations):
-        # Shuffle the data to introduce stochasticity
 
-        #np.random.shuffle(data_matrix)
+    # Track true labels and predicted probabilities during training
+    y_true_list, y_pred_list = [], []
+    
+    # inside the train_logistic_regression function
+    for iteration in range(iterations):
+        np.random.shuffle(data_matrix)
         for instance in data_matrix:
             features = instance[:-1]
             label = instance[-1]
@@ -213,23 +176,29 @@ def train_logistic_regression(train_set, learning_rate, iterations):
             # Vectorized weight update
             gradient = (prediction - label) * features
             weights -= learning_rate * gradient
+        
+        # Calculate predicted probabilities on the entire dataset after each epoch
+        y_true = data_matrix[:, -1]
+        y_pred = [helper_function(weights, features) for features in data_matrix[:, :-1]]
+        
+        # Append to lists for later log loss calculation
+        y_true_list.extend(y_true)
+        y_pred_list.extend(y_pred)
+        
         # Log-likelihood calculation after each epoch
-        log_likelihood = compute_log_likelihood(weights, data_matrix)
-        print(f"Iteration {iteration + 1}/{iterations}, Log-Likelihood: {log_likelihood}, Elapsed Time{start_time - time.time()}")
-        print_running_time(start_time)
+        log_likelihood = compute_log_loss(np.array(y_true_list), np.array(y_pred_list))
+        print(f"Iteration {iteration + 1}/{iterations}, Log Loss: {log_likelihood}, Elapsed Time: {time.time() - start_time}")
+    
     return weights
 
 
 # Function to read the input dataset
 def read_input_dataset(file_path):
     """
-    Read the input dataset from the given file path. 🥰
+    Read the input dataset from the given file path.
 
-    Parameters:
-    file_path (str): The path to the input dataset file.
-
-    Returns:
-    tuple: A tuple containing feature names and data matrix.
+    Parameters: file_path (str): The path to the input dataset file.
+    Returns: tuple: A tuple containing feature names and data matrix.
     """
     with open(file_path, 'r') as file:
         lines = file.readlines()
