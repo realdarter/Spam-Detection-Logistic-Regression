@@ -194,6 +194,7 @@ def train_logistic_regression(train_set, learning_rate, iterations):
     Returns:
     list: The learned weight vector.
     """
+    start_time = time.time()
     feature_names, data_matrix = train_set
     num_features = len(feature_names) - 1
     weights = initialize_weights(num_features)
@@ -201,6 +202,7 @@ def train_logistic_regression(train_set, learning_rate, iterations):
     # Inside the train_logistic_regression function
     for iteration in range(iterations):
         # Shuffle the data to introduce stochasticity
+
         #np.random.shuffle(data_matrix)
         for instance in data_matrix:
             features = instance[:-1]
@@ -213,7 +215,8 @@ def train_logistic_regression(train_set, learning_rate, iterations):
             weights -= learning_rate * gradient
         # Log-likelihood calculation after each epoch
         log_likelihood = compute_log_likelihood(weights, data_matrix)
-        print(f"Iteration {iteration + 1}/{iterations}, Log-Likelihood: {log_likelihood}")
+        print(f"Iteration {iteration + 1}/{iterations}, Log-Likelihood: {log_likelihood}, Elapsed Time{start_time - time.time()}")
+        print_running_time(start_time)
     return weights
 
 
