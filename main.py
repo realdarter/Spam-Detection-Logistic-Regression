@@ -1,5 +1,5 @@
 """
- * Description: This code implements logistic regression with stochastic gradient descent for binary classification. 
+ * Description: This code runs logistic regression with stochastic gradient descent for binary classification. 
  * It includes functions for model training, evaluation, and log loss calculation, 
  * allows for a customizable and interpretable machine learning approach.
  * Author names: Goose
@@ -48,7 +48,7 @@ def main():
 
     # printing the evaluation metrics
     print("------------Evaluation Metrics------------")
-    print(f"Accuracy: {accuracy}")
+    print(f"Accuracy: {accuracy}") #Fix precision recall f1 score to reflect pos and neg
     print(f"Precision: {precision}")
     print(f"Recall: {recall}")
     print(f"F1 Score: {f1_score}")
