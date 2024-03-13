@@ -24,6 +24,7 @@ def sigmoid(z):
     
     Parameters: z (float): The raw input to the sigmoid function
     Returns: float: Output of the sigmoid function
+
                    |\_ |\    [  Sigma Cat :3 ]
                    \` .. \   )/   
               __,.-" =__Y=         

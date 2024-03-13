@@ -1,6 +1,16 @@
+"""
+ * Description: This code implements logistic regression with stochastic gradient descent for binary classification. 
+ * It includes functions for model training, evaluation, and log loss calculation, 
+ * allows for a customizable and interpretable machine learning approach.
+ * Author names: Goose
+ * Last modified date: 3/13/2024
+ * Creation date: 3/10/2024
+"""
+
 from logistic_regression import *
-from machine_learning_analysis import *
+from analysis import *
 import numpy as np
+import re
 
 # Directories
 TEST_FILE = 'data/test.csv'
@@ -42,12 +52,16 @@ def main():
     print(f"Precision: {precision}")
     print(f"Recall: {recall}")
     print(f"F1 Score: {f1_score}")
+    print(f"Total Log Loss: {log_loss_array[ITERATIONS-1]}")
     print("Confusion Matrix:")
     for key, value in confusion_matrix.items():
-        print(f"{key}: {value}")
+        if (re.findall(r'\bpositive\b', key, flags=re.IGNORECASE)):
+            print(f"{key} (Spam) : {value}")
+        else:
+            print(f"{key} (Ham) : {value}")
     print("------------------------------------------")
 
-    print("Finished.")
+    print("Finished")
     
     #Display
     try:

@@ -12,3 +12,9 @@ def plot_line_chart(x, y, label='Sample Data', xlabel='xlabel', ylabel='ylabel',
     
     plt.legend()
     plt.show()
+
+def get_window_size():
+    fig, ax = plt.subplots()
+    width_inches, height_inches = fig.get_size_inches()
+    plt.close(fig)
+    return width_inches, height_inches
