@@ -1,4 +1,4 @@
-# SpamDetectionLogisticRegression
+# Spam Detection Logistic Regression 😼
 Logistic Regression (without bias) for a Email Spam Detection System.
 
 # Requirements
