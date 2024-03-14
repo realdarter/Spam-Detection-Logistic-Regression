@@ -58,8 +58,7 @@ def prediction_function(weights, test_instance, threshold=0.5):
     """
     Prediction function.
     
-    Parameters:
-    weights (list): The weight vector. test_instance (list): The feature values of the test instance
+    Parameters: weights (list): The weight vector. test_instance (list): The feature values of the test instance
     threshold (float): Decision threshold for classification
     Returns: int: Predicted label (0 or 1)
     """
@@ -81,11 +80,10 @@ def evaluate_model(test_set, weights, threshold=0.5):
 
     Parameters: test_set (tuple): A tuple containing feature names and the test data matrix. weights (list): The learned weight vector. 
     threshold (float): Decision threshold for classification.
-    Returns: tuple: A tuple containing accuracy, precision, recall, F1 score, and confusion matrix.
+    tuple: A tuple containing precision, recall, F1-score, and confusion matrix for both positive and negative classes.
     """
-    feature_names, test_data = test_set
-    num_features = len(feature_names) - 1
-
+    _, test_data = test_set #skipping features and getting test data only
+    
     true_positive, false_positive, true_negative, false_negative = 0, 0, 0, 0
 
     for instance in test_data:
@@ -103,12 +101,17 @@ def evaluate_model(test_set, weights, threshold=0.5):
             true_negative += 1
         elif label == 1 and prediction == 0:
             false_negative += 1
-
-    # calculate  evaluation metrics below
+    
     accuracy = (true_positive + true_negative) / len(test_data)
-    precision = true_positive / (true_positive + false_positive) if (true_positive + false_positive) != 0 else 0
-    recall = true_positive / (true_positive + false_negative) if (true_positive + false_negative) != 0 else 0
-    f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) != 0 else 0
+    # Positive class
+    pos_precision = true_positive/(true_positive + false_positive)
+    pos_recall = true_positive / (true_positive + false_negative)
+    pos_f1_Score = 2 * (pos_precision * pos_recall) / (pos_precision + pos_recall)
+    # Negative class
+    neg_precision = true_negative / (true_negative + false_positive)
+    neg_recall = true_negative / (true_negative + false_positive)
+    neg_f1_score = 2 * (neg_precision * neg_recall) / (neg_precision + neg_recall)
+
 
     confusion_matrix = {
         'True Positive': true_positive,
@@ -117,7 +120,7 @@ def evaluate_model(test_set, weights, threshold=0.5):
         'False Negative': false_negative
     }
 
-    return accuracy, precision, recall, f1_score, confusion_matrix
+    return accuracy, pos_precision, pos_recall, pos_f1_Score, neg_precision, neg_recall, neg_f1_score, confusion_matrix
 
 def compute_log_loss(true_labels, predicted_probabilities):
     """
@@ -129,11 +132,11 @@ def compute_log_loss(true_labels, predicted_probabilities):
     num_instances = len(true_labels)
     
     # the clip predictions to avoid log(0) or log(1)
-    clipped_predictions = np.clip(predicted_probabilities, 1e-15, 1 - 1e-15) # np.clip bounds predicted probabilities to avoid extreme values (0 or 1), 
-    # this prevents a numerical instability in logistic regression computations
+    clipped_predictions = np.clip(predicted_probabilities, 1e-15, 1 - 1e-15) # np.clip bounds the current predicted probabilities to avoid extreme values (0 or 1), 
+    # this then prevents a numerical instability in the logistic regression computations
     
-    # Compute the log loss here
-    loss = -1/num_instances * np.sum(true_labels * np.log(clipped_predictions) + (1 - true_labels) * np.log(1 - clipped_predictions))
+    # compute the log loss here
+    loss = -1/num_instances * np.sum(true_labels * np.log(clipped_predictions) + (1 - true_labels) * np.log(1 - clipped_predictions)) #-1/N Sumation{N,i=1}(Yi * log(pi) + (1-yi) * log(1-pi))
     return loss
 
 

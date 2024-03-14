@@ -42,24 +42,32 @@ def main():
 
 
     learned_weights, log_loss_array = train_logistic_regression(train_set, RATE, ITERATIONS) # train the Logistic Regression model
-    accuracy, precision, recall, f1_score, confusion_matrix = evaluate_model(test_set, learned_weights) # evaluate the model on the test set
+    accuracy, pos_precision, pos_recall, pos_f1_Score, neg_precision, neg_recall, neg_f1_Score, confusion_matrix = evaluate_model(test_set, learned_weights) # evaluate the model on the test set
 
     print_running_time(start_time)
 
     # printing the evaluation metrics
-    print("------------Evaluation Metrics------------")
-    print(f"Accuracy: {accuracy}") #Fix precision recall f1 score to reflect pos and neg
-    print(f"Precision: {precision}")
-    print(f"Recall: {recall}")
-    print(f"F1 Score: {f1_score}")
-    print(f"Total Log Loss: {log_loss_array[ITERATIONS-1]}")
+    print("-------Evaluation Metrics-------")
+    print(f"Accuracy: {accuracy}")
+    print(f"Total Log Loss: {log_loss_array[ITERATIONS-1]}\n")
+
+    print(f"Positive Class (Spam)")
+    print(f"Precision: {pos_precision}")
+    print(f"Recall: {pos_recall}")
+    print(f"F1 Score: {pos_f1_Score}\n")
+ 
+    print(f"Negative Class (Ham)")
+    print(f"Precision: {neg_precision}")
+    print(f"Recall: {neg_recall}")
+    print(f"F1 Score: {neg_f1_Score}\n")
+
     print("Confusion Matrix:")
     for key, value in confusion_matrix.items():
         if (re.findall(r'\bpositive\b', key, flags=re.IGNORECASE)):
             print(f"{key} (Spam) : {value}")
         else:
             print(f"{key} (Ham) : {value}")
-    print("------------------------------------------")
+    print("--------------------------------")
 
     print("Finished")
     
