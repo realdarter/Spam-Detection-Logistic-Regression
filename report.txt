@@ -2,12 +2,27 @@
 Accuracy: 0.9560538116591928
 
 2. What are the train set Precision, Recall and F1-measure (also called F1-score) of the positive (spam) class as printed by your code?
+Precision: 0.8111111111111111
+Recall: 0.906832298136646
+F1 Score: 0.8563049853372435
 
 3. What are the train set Precision, Recall and F1-measure (also called F1-score) of the negative (ham) class as printed by your code?
+Precision: 0.9643605870020965
+Recall: 0.9643605870020965
+F1 Score: 0.9643605870020965
 
 4. What is the confusion matrix for the train set as printed by your code?
+True Positive (Spam) : 146
+False Positive (Spam) : 34
+True Negative (Ham) : 920
+False Negative (Ham) : 15
+
 5. What is the test set Accuracy as printed by your code?
+
+
 6. What are the test set Precision, Recall and F1-measure (also called F1-score) of the positive and the negative class as printed by your code?
+
+
 7. What is the confusion matrix for the test set as printed by your code?
 
 Draw a plot of log loss of the training data (y-axis) versus training iteration (x-axis), and include it in your report. You don’t need to include the code for generating the plot. What is the total cost of your model? Use the below formulas (ignore b parameter (bias)):
