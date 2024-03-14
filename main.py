@@ -42,27 +42,52 @@ def main():
 
 
     learned_weights, log_loss_array = train_logistic_regression(train_set, RATE, ITERATIONS) # train the Logistic Regression model
-    accuracy, pos_precision, pos_recall, pos_f1_Score, neg_precision, neg_recall, neg_f1_Score, confusion_matrix = evaluate_model(test_set, learned_weights) # evaluate the model on the test set
+    tr_accuracy, tr_pos_precision, tr_pos_recall, tr_pos_f1_Score, tr_neg_precision, tr_neg_recall, tr_neg_f1_Score, tr_confusion_matrix = evaluate_model(train_set, learned_weights) # evaluate the model on the train set
+    te_accuracy, te_pos_precision, te_pos_recall, te_pos_f1_Score, te_neg_precision, te_neg_recall, te_neg_f1_Score, te_confusion_matrix = evaluate_model(test_set, learned_weights) # evaluate the model on the test set
 
     print_running_time(start_time)
 
     # printing the evaluation metrics
     print("-------Evaluation Metrics-------")
-    print(f"Accuracy: {accuracy}")
+    print("[Train_Set]")
+    print(f"Accuracy: {tr_accuracy}")
     print(f"Total Log Loss: {log_loss_array[ITERATIONS-1]}\n")
 
     print(f"Positive Class (Spam)")
-    print(f"Precision: {pos_precision}")
-    print(f"Recall: {pos_recall}")
-    print(f"F1 Score: {pos_f1_Score}\n")
+    print(f"Precision: {tr_pos_precision}")
+    print(f"Recall: {tr_pos_recall}")
+    print(f"F1 Score: {tr_pos_f1_Score}\n")
  
     print(f"Negative Class (Ham)")
-    print(f"Precision: {neg_precision}")
-    print(f"Recall: {neg_recall}")
-    print(f"F1 Score: {neg_f1_Score}\n")
+    print(f"Precision: {tr_neg_precision}")
+    print(f"Recall: {tr_neg_recall}")
+    print(f"F1 Score: {tr_neg_f1_Score}\n")
 
     print("Confusion Matrix:")
-    for key, value in confusion_matrix.items():
+    for key, value in tr_confusion_matrix.items():
+        if (re.findall(r'\bpositive\b', key, flags=re.IGNORECASE)):
+            print(f"{key} (Spam) : {value}")
+        else:
+            print(f"{key} (Ham) : {value}")
+    print("--------------------------------\n")
+
+    print("-------Evaluation Metrics-------")
+    print("[Test_Set]")
+    print(f"Accuracy: {te_accuracy}")
+    print(f"Total Log Loss: {log_loss_array[ITERATIONS-1]}\n")
+
+    print(f"Positive Class (Spam)")
+    print(f"Precision: {te_pos_precision}")
+    print(f"Recall: {te_pos_recall}")
+    print(f"F1 Score: {te_pos_f1_Score}\n")
+ 
+    print(f"Negative Class (Ham)")
+    print(f"Precision: {te_neg_precision}")
+    print(f"Recall: {te_neg_recall}")
+    print(f"F1 Score: {te_neg_f1_Score}\n")
+
+    print("Confusion Matrix:")
+    for key, value in te_confusion_matrix.items():
         if (re.findall(r'\bpositive\b', key, flags=re.IGNORECASE)):
             print(f"{key} (Spam) : {value}")
         else:
