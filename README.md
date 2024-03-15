@@ -20,7 +20,7 @@ Iteration 7/200                Log Loss: 0.24591063562093332            Elapsed 
 After the program has finished it will print accuracy, precision, recall, f1_score, True Positive, False Positive, True Negative, False Negative
 The program will also display Charts 😺
 
-
+Includes Code Report [CS171 HW1 Logistic Regression Report.pdf]
 
 
 
