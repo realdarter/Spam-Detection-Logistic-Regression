@@ -47,11 +47,13 @@ def main():
 
     print_running_time(start_time)
 
+    total_log_loss = 1/ITERATIONS*np.sum(log_loss_array)
+
     # printing the evaluation metrics
     print("-------Evaluation Metrics-------")
     print("[Train_Set]")
     print(f"Accuracy: {tr_accuracy}")
-    print(f"Total Log Loss: {log_loss_array[ITERATIONS-1]}\n")
+    print(f"Total cost of log loss over {ITERATIONS} iterations:", total_log_loss)
 
     print(f"Positive Class (Spam)")
     print(f"Precision: {tr_pos_precision}")
